@@ -59,7 +59,7 @@ namespace ToDo_App.Data
 
         public void Clear()
         {
-            personArr = new Person[0];
+            personArr = Array.Empty<Person>();
         }
     }
 }
