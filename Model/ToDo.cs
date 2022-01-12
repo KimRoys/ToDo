@@ -13,17 +13,14 @@ namespace ToDo_App.Model
         private bool done;
         private Person assignee;
 
+        public int ToDoId => todoId;
         public ToDo(int todoId)
         {
             this.todoId = todoId;
         }
 
-        public int ToDoId
-        {
-            get => todoId;
-        }
 
-        public ToDo(int todoId, string description)
+        public ToDo(int todoId, string description) : this()
         {
             this.todoId = todoId;
             this.description = description;
@@ -32,7 +29,15 @@ namespace ToDo_App.Model
         public string Description
         {
             get => description;
-            set => description = value;
+            set
+            {
+                if (value == null)              // Check for null assignment
+                {
+                    throw new ArgumentNullException("Description", "property Description cannot be assigned a null value!");
+                }
+
+                description = value;
+            }
         }
 
         public bool Done
@@ -41,10 +46,19 @@ namespace ToDo_App.Model
             set => done = value;
         }
 
-        public Person Person
+        public Person Assignee 
+        { 
+            get => assignee; 
+            set => assignee = value; 
+        
+        }
+
+        public ToDo()
         {
-            get => assignee;
-            set => assignee = value;
+            assignee = null;
+            done = false;
+            todoId = 0;
+            description = "";
         }
     }
 }

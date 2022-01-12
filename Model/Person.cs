@@ -12,15 +12,13 @@ namespace ToDo_App.Model
         private string firstName;
         private string lastName;
 
-        
-        public Person(int personId)
+        public int PersonId => personId;
+
+        public Person(int personId = 0)
         {
             this.personId = personId;
-        }
-        
-        public int PersonId
-        {
-            get => personId;
+            firstName = "";
+            lastName = "";
         }
 
         public string FirstName

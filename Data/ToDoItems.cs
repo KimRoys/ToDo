@@ -48,6 +48,29 @@ namespace ToDo_App.Data
             return toDoArr[newLength - 1];
         }
 
+        public ToDo Add(string description, bool done, Person assignee = null)
+        {
+            ToDo[] newTodoitemsArr;
+            ToDo todoItem;
+
+            int index = Size();                                      
+            int newcount = index + 1;
+            int todoID = TodoSequencer.nextToDoId();             
+
+            todoItem = new ToDo(todoID, description);                  
+            todoItem.Done = done;
+            todoItem.Assignee = assignee;
+
+            newTodoitemsArr = new ToDo[newcount];          
+
+            toDoArr.CopyTo(newTodoitemsArr, 0);         
+            newTodoitemsArr[index] = todoItem;              
+
+            toDoArr = newTodoitemsArr;              
+
+            return todoItem;
+        }
+
         public ToDo CreateToDo(string description, bool done)
         {
             int toDoId = TodoSequencer.nextToDoId();
@@ -60,6 +83,62 @@ namespace ToDo_App.Data
         public void Clear()
         {
             toDoArr = Array.Empty<ToDo>();
+        }
+
+        public ToDo[] FindByDoneStatus(bool done)
+        {
+            ToDo[] sortedArr = new ToDo[0];
+            foreach (ToDo toDo in toDoArr)
+            {
+                if (toDo.Done == done)
+                {
+                    Array.Resize(ref sortedArr, sortedArr.Length + 1);
+                    sortedArr[sortedArr.Length - 1] = toDo;
+                }
+            }
+            return sortedArr;
+        }
+
+        public ToDo[] FindByAssignee(int personId)
+        {
+            ToDo[] sortedArr = new ToDo[0];
+            foreach (ToDo todo in toDoArr)
+            {
+                if (todo.Assignee != null && todo.Assignee.PersonId == personId)
+                {
+                    Array.Resize(ref sortedArr, sortedArr.Length + 1);
+                    sortedArr[sortedArr.Length - 1] = todo;
+                }
+            }
+            return sortedArr;
+        }
+
+        public ToDo[] FindByAssignee(Person assignee)
+        {
+            ToDo[] sortedArr = new ToDo[0];
+            foreach (var item in toDoArr)
+            {
+                if (item.Assignee  == assignee)
+                {
+                    Array.Resize(ref sortedArr, sortedArr.Length + 1);
+                    sortedArr[sortedArr.Length - 1] = item;
+                }
+            }
+            return sortedArr;
+        }
+
+        public ToDo[] FindUnassignedTodoItems()
+        {            
+            ToDo[] sortedArr = new ToDo[0];
+            foreach (var item in toDoArr)
+            {
+                if (null == item.Assignee)
+                {
+                    Array.Resize(ref sortedArr, sortedArr.Length + 1);
+                    sortedArr[sortedArr.Length - 1] = item;
+                }
+            }
+            return sortedArr;
         }
     }
 }
