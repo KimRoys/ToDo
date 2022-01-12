@@ -61,5 +61,39 @@ namespace ToDo_App.Data
         {
             personArr = Array.Empty<Person>();
         }
+
+        public void Remove(int id)
+        {
+            int indexId = findIndex(id);
+
+            if (indexId > -1)
+            {
+                int newLength = personArr.Length - 1;
+                Person[] tmpArr = personArr;
+                personArr = new Person[newLength];
+
+                int count = 0;
+                for (int i = 0; i < tmpArr.Length; i++)
+                {
+                    if (i != indexId)
+                    {
+                        personArr[count] = tmpArr[i];
+                        count++;
+                    }
+                }
+            }
+        }
+
+        private int findIndex(int id)
+        {
+            for (int i = 0; i < personArr.Length; i++)
+            {
+                if (personArr[i].PersonId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 }

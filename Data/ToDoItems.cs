@@ -16,11 +16,6 @@ namespace ToDo_App.Data
             return toDoArr.Length;
         }
 
-        public ToDo[] FindAll()
-        {
-            return toDoArr;
-        }
-
         public ToDo FindById(int todoId)
         {
             foreach (ToDo toDoItem in toDoArr)
@@ -139,6 +134,44 @@ namespace ToDo_App.Data
                 }
             }
             return sortedArr;
+        }
+        public ToDo[] FindAll()
+        {
+            return toDoArr;
+        }
+
+        public void Remove(int id)
+        {
+            int indexId = findIndex(id);
+
+            if (indexId > -1)
+            {
+                int newLength = toDoArr.Length - 1;
+                ToDo[] tmpArr = toDoArr;
+                toDoArr = new ToDo[newLength];
+
+                int count = 0;
+                for (int i = 0; i < tmpArr.Length; i++)
+                {
+                    if (i != indexId)
+                    {
+                        toDoArr[count] = tmpArr[i];
+                        count++;
+                    }
+                }
+            }
+        }
+
+        private int findIndex(int id)
+        {
+            for (int i = 0; i < toDoArr.Length; i++)
+            {
+                if (toDoArr[i].ToDoId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
